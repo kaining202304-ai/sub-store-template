@@ -8,7 +8,7 @@ let proxies = await produceArtifact({
 })
 
 // 定义需要过滤的 tag 列表
-const excludedTags = ["hk", "hk-auto", "tw", "tw-auto", "jp", "jp-auto", "sg", "sg-auto", "us", "us-auto", "all", "all-auto"];
+const excludedTags = ["hk", "hk-auto", "tw", "tw-auto", "jp", "jp-auto", "sg", "sg-auto", "us", "us-auto", "all", "all-auto", "剩余流量","过期时间"];
 
 config.outbounds.push(...proxies)
 config.outbounds.map(i => {
