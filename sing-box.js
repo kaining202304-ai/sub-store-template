@@ -6,19 +6,18 @@ let proxies = await produceArtifact({
   platform: 'sing-box',
   produceType: 'internal',
 })
-
 // 定义需要过滤的 tag 列表
-const excludedTags = ["hk", "hk-auto", "tw", "tw-auto", "jp", "jp-auto", "sg", "sg-auto", "us", "us-auto", "all", "all-auto", "剩余流量","过期时间"];
-
+const excludedTags = ["hk", "hk-auto", "tw", "tw-auto", "jp", "jp-auto", "sg", "sg-auto", "us", "us-auto", "all", "all-auto"];
 config.outbounds.push(...proxies)
 config.outbounds.map(i => {
   if (['select', 'auto'].includes(i.tag)) {
-    // 过滤掉 excludedTags 中的 tag
+    // 过滤掉 excludedTags 中的 tag 以及包含 "剩余流量" 或 "过期时间" 的 tag
     i.outbounds.push(...getTags(proxies).filter(tag => !excludedTags.includes(tag)));
   }
 })
 $content = JSON.stringify(config, null, 2)
-
 function getTags(proxies, regex) {
-  return (regex ? proxies.filter(p => regex.test(p.tag)) : proxies).map(p => p.tag)
+  return (regex ? proxies.filter(p => regex.test(p.tag)) : proxies)
+    .map(p => p.tag)
+    .filter(tag => !tag.includes("剩余流量") && !tag.includes("过期时间"));
 }
